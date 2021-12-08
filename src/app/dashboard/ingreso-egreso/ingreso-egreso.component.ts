@@ -1,10 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { UtilsService } from 'src/app/services/utils.service';
-import { firstValueFrom } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CuentaService } from 'src/app/services/cuenta.service';
+
 import Swal from 'sweetalert2';
+
+import { Store } from '@ngrx/store';
+import { firstValueFrom } from 'rxjs';
+
+import { CuentaService } from 'src/app/services/cuenta.service';
+import { AppState } from 'src/app/store/app.reducers';
+import * as uiActions from 'src/app/store/actions/ui.actions';
 
 @Component({
   selector: 'app-ingreso-egreso',
@@ -19,7 +24,9 @@ export class IngresoEgresoComponent implements OnInit {
   get numeroCuenta() { return this.transaccionForm.controls['numeroCuenta'] };
   get tipo() { return this.transaccionForm.controls['tipo'] };
 
-  constructor(private _cuentaService: CuentaService, private fb: FormBuilder, private _utils: UtilsService) {
+  constructor(private _cuentaService: CuentaService, private fb: FormBuilder,
+    private store: Store<AppState>) {
+
     this.transaccionForm = this.fb.group({
       monto: ['', Validators.required],
       numeroCuenta: ['', Validators.required],
@@ -35,7 +42,7 @@ export class IngresoEgresoComponent implements OnInit {
 
   registrar() {
     if (this.transaccionForm.invalid) return;
-    this._utils.loading = true;
+    this.store.dispatch(uiActions.isLoading());
     const fecha = new Date();
 
     const { monto, tipo, numeroCuenta, terminal, usuario } = this.transaccionForm.value;
@@ -49,7 +56,7 @@ export class IngresoEgresoComponent implements OnInit {
         Swal.fire('Error', error.message, 'error');
         console.warn(error);
       })
-      .finally(() => this._utils.loading = false)
+      .finally(() => this.store.dispatch(uiActions.stopLoading()))
   }
 
 }

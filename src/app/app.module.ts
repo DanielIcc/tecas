@@ -1,3 +1,4 @@
+import { appReducers } from './store/app.reducers';
 import { SessionInterceptor } from './services/interceptor';
 import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
@@ -13,6 +14,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AngularMaterialModule } from './material.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,12 @@ import { AngularMaterialModule } from './material.module';
     BrowserAnimationsModule,
     AuthModule,
     DashboardModule,
+    StoreModule.forRoot(appReducers),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+      autoPause: true,
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },

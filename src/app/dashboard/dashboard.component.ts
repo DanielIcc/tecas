@@ -1,9 +1,10 @@
 import { BreakpointObserver, Breakpoints, MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
 import { map, Observable } from 'rxjs';
-import { UtilsService } from '../services/utils.service';
+
 
 export interface Menu {
   descripcion: string;
@@ -31,26 +32,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   ];
 
-  // para el side menu y toolbar
   @ViewChild('snav') sidenav?: MatSidenav;
   mobileQuery: MediaQueryList;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
   private _mobileQueryListener: () => void;
 
+
+
   constructor(private breakpointObserver: BreakpointObserver, changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher, private router: Router,public _utils: UtilsService) {
+    media: MediaMatcher, private router: Router
+  ) {
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
-
   }
 
   cerrarMenu(): void {

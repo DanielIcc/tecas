@@ -1,8 +1,13 @@
-import { firstValueFrom } from 'rxjs';
+import { AppState } from './../../store/app.reducers';
+import { Component, OnInit, } from '@angular/core';
+
 import { CuentaService } from './../../services/cuenta.service';
-import { Component, OnInit } from '@angular/core';
 import { CuentaAhorro } from '../cuenta.interface';
-import { UtilsService } from 'src/app/services/utils.service';
+
+import { firstValueFrom } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import * as uiActions from 'src/app/store/actions/ui.actions';
 
 @Component({
   selector: 'app-historial',
@@ -20,29 +25,27 @@ export class HistorialComponent implements OnInit {
 
   historialCuenta: any[] = [];
 
-  constructor(private _cuentaService: CuentaService, public _utils: UtilsService) { }
+  constructor(private _cuentaService: CuentaService,
+    private store: Store<AppState>) { }
+
 
   ngOnInit(): void {
-    setTimeout(async () => {
-      this._utils.loading = true;
-      firstValueFrom(this._cuentaService.consultarCuentasAhorro())
-        .then((res: any) => {
-          console.log(res);
-          Object.keys(res).forEach(key => {
-            this.cuentas.push(res[key]);
-          });
-
-          this.clientes = [...new Set(this.cuentas.map(c => c.idCliente))];
-          console.log(this.clientes);
-        })
-        .catch(err => {
-          console.warn(err);
-        }).finally(() => this._utils.loading = false)
-    }, 0)
+    setTimeout(() => this.store.dispatch(uiActions.isLoading()), 0);
+    firstValueFrom(this._cuentaService.consultarCuentasAhorro())
+      .then((res: any) => {
+        Object.keys(res).forEach(key => {
+          this.cuentas.push(res[key]);
+        });
+        this.clientes = [...new Set(this.cuentas.map(c => c.idCliente))];
+      })
+      .catch(err => {
+        console.warn(err);
+      }).finally(() => this.store.dispatch(uiActions.stopLoading()))
   }
 
+
   seleccionarCuenta(cuenta: CuentaAhorro) {
-    this._utils.loading = true;
+    this.store.dispatch(uiActions.isLoading());
     this.historialCuenta = [];
     firstValueFrom(this._cuentaService.historialTransacciones())
       .then((res: any) => {
@@ -52,13 +55,12 @@ export class HistorialComponent implements OnInit {
         });
       }).catch(err => {
         console.warn(err);
-      }).finally(() => this._utils.loading = false)
+      }).finally(() => this.store.dispatch(uiActions.stopLoading()))
   }
 
   seleccionarCliente(cliente: number) {
     this.cuentasCliente = [];
     this.cuentasCliente = this.cuentas.filter(c => c.idCliente == cliente);
-
   }
 
 }

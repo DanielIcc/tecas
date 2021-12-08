@@ -1,10 +1,16 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CuentaService } from './../../services/cuenta.service';
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UtilsService } from 'src/app/services/utils.service';
+
+import { CuentaService } from './../../services/cuenta.service';
+
+import Swal from 'sweetalert2';
+
+import { firstValueFrom } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/store/app.reducers';
+import * as uiActions from 'src/app/store/actions/ui.actions';
 
 @Component({
   selector: 'app-nueva-cuenta',
@@ -19,8 +25,9 @@ export class NuevaCuentaComponent implements OnInit {
   get saldo() { return this.cuentaForm.controls['saldo'] }
   get idCliente() { return this.cuentaForm.controls['idCliente'] }
 
-
-  constructor(private _cuentaService: CuentaService, private fb: FormBuilder, public _utils: UtilsService) {
+  //State
+  
+  constructor(private _cuentaService: CuentaService, private fb: FormBuilder, private store: Store<AppState>) {
     this.cuentaForm = this.fb.group({
       numeroCuenta: ['', Validators.required],
       saldo: ['', Validators.required],
@@ -34,7 +41,8 @@ export class NuevaCuentaComponent implements OnInit {
   registrar() {
     console.log(this.cuentaForm.value);
     if (this.cuentaForm.invalid) return;
-    this._utils.loading = true;
+
+    this.store.dispatch(uiActions.isLoading());    
 
     const { numeroCuenta, saldo, idCliente } = this.cuentaForm.value;
     const fecha = new Date();
@@ -53,7 +61,7 @@ export class NuevaCuentaComponent implements OnInit {
     Object.keys(this.cuentaForm.controls).forEach(key => {
       this.cuentaForm.controls[key].setErrors(null)
     });
-    this._utils.loading = true;
+    this.store.dispatch(uiActions.stopLoading());
   }
 
 }

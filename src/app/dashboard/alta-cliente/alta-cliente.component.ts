@@ -3,6 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
+import { Store } from '@ngrx/store';
+
+import * as uiActions from 'src/app/store/actions/ui.actions';
+import { AppState } from 'src/app/store/app.reducers';
+
 @Component({
   selector: 'app-alta-cliente',
   templateUrl: './alta-cliente.component.html',
@@ -20,7 +25,7 @@ export class AltaClienteComponent implements OnInit {
   get generoF() { return this.registroForm.controls['genero'] }
   get edadF() { return this.registroForm.controls['edad'] }
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private store: Store<AppState>) {
     this.registroForm = this.fb.group({
       nombre: ['', Validators.required],
       id: ['', Validators.required],
