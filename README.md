@@ -1,5 +1,11 @@
-# Regenerar aplicación
-`npm install`
+# Prueba técnica TECAS
 
-# Correr en red local
-`ng serve --host 0.0.0.0`
+### Pre-requisitos
+```
+npm install -g @angular/cli
+```
+### Instalación 🔧
+
+```
+npm install
+```
