@@ -35,12 +35,7 @@ export class AltaClienteComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-
-  }
-  // regresar() {
-  //   this.router.navigate(['/']);
-  // }
+  ngOnInit(): void { }
 
   registrar() {
     //No hay endpoint

@@ -26,7 +26,7 @@ export class NuevaCuentaComponent implements OnInit {
   get idCliente() { return this.cuentaForm.controls['idCliente'] }
 
   //State
-  
+
   constructor(private _cuentaService: CuentaService, private fb: FormBuilder, private store: Store<AppState>) {
     this.cuentaForm = this.fb.group({
       numeroCuenta: ['', Validators.required],
@@ -42,26 +42,26 @@ export class NuevaCuentaComponent implements OnInit {
     console.log(this.cuentaForm.value);
     if (this.cuentaForm.invalid) return;
 
-    this.store.dispatch(uiActions.isLoading());    
+    this.store.dispatch(uiActions.isLoading());
 
     const { numeroCuenta, saldo, idCliente } = this.cuentaForm.value;
     const fecha = new Date();
     const fechaFormato = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()}`;
-    firstValueFrom(this._cuentaService.crearCuentaAhorro({ saldo, idCliente, numeroCuenta, estado: "Activa", fechaUltimaAct: fechaFormato }))
-      .then((res: any) => {
-        console.log("CrearCuenta", res);
-        Swal.fire('Exito', `Cuenta creada correctamente confirmación ${res.name}`, 'success');
-      })
-      .catch((error: HttpErrorResponse) => {
-        console.warn('Error crear cuenta', error);
-        Swal.fire('Error', error.message, 'error');
-      })
+
+    this._cuentaService.crearCuentaAhorro({ saldo, idCliente, numeroCuenta, estado: "Activa", fechaUltimaAct: fechaFormato }).subscribe({
+      next: (res: any) => Swal.fire('Exito', `Cuenta creada correctamente confirmación ${res.name}`, 'success'),
+      complete: () => this.store.dispatch(uiActions.stopLoading()),
+      error: (error: HttpErrorResponse) => {
+        this.store.dispatch(uiActions.stopLoading())
+        Swal.fire('Error', error.message, 'error')
+      }
+    });
 
     this.cuentaForm.reset();
+
     Object.keys(this.cuentaForm.controls).forEach(key => {
       this.cuentaForm.controls[key].setErrors(null)
     });
-    this.store.dispatch(uiActions.stopLoading());
   }
 
 }

@@ -62,13 +62,19 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.loginForm.value;
     const credenciales = new Credenciales(email, password);
 
-    lastValueFrom(this._authService.ingresar(credenciales)).then((res: AuthSuccess) => {
-      localStorage.setItem("acceso", JSON.stringify(res));
-      this.router.navigate(['/']);
-    }).catch((error: HttpErrorResponse) => {
-      Swal.fire('Error', (error.status == 400) ? 'Usuario y/o contraseña incorrectos' : error.message, 'error');
-    })
-      .finally(() => this.store.dispatch(uiActions.stopLoading()));
+
+    this._authService.ingresar(credenciales).subscribe({
+      next: (res: AuthSuccess) => {
+        localStorage.setItem("acceso", JSON.stringify(res));
+        this.router.navigate(['/']);
+      },
+      complete: () => this.store.dispatch(uiActions.stopLoading()),
+      error: (error: HttpErrorResponse) => {
+        Swal.fire('Error', (error.status == 400) ? 'Usuario y/o contraseña incorrectos' : error.message, 'error');
+        this.store.dispatch(uiActions.stopLoading())
+      }
+    });
+
   }
 
 }

@@ -48,15 +48,14 @@ export class IngresoEgresoComponent implements OnInit {
     const { monto, tipo, numeroCuenta, terminal, usuario } = this.transaccionForm.value;
     const fechaUltimaAct = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()}`;
 
-    firstValueFrom(this._cuentaService.altaTransaccion({ fechaUltimaAct, monto, tipo, numeroCuenta, terminal, usuario }))
-      .then((res: any) => {
-        Swal.fire('Exito', `Transacción exitosa confirmacion ${res.name}.`, 'success');
-      })
-      .catch((error: HttpErrorResponse) => {
-        Swal.fire('Error', error.message, 'error');
-        console.warn(error);
-      })
-      .finally(() => this.store.dispatch(uiActions.stopLoading()))
+    this._cuentaService.altaTransaccion({ fechaUltimaAct, monto, tipo, numeroCuenta, terminal, usuario }).subscribe({
+      next: (res: any) => Swal.fire('Exito', `Transacción exitosa confirmacion ${res.name}.`, 'success'),
+      complete: () => this.store.dispatch(uiActions.stopLoading()),
+      error: (error: HttpErrorResponse) => {
+        this.store.dispatch(uiActions.stopLoading())
+        Swal.fire('Error', error.message, 'error')
+      }
+    });
   }
 
 }

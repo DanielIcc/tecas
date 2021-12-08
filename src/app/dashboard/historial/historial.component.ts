@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as uiActions from 'src/app/store/actions/ui.actions';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-historial',
@@ -30,32 +31,32 @@ export class HistorialComponent implements OnInit {
 
 
   ngOnInit(): void {
-    setTimeout(() => this.store.dispatch(uiActions.isLoading()), 0);
-    firstValueFrom(this._cuentaService.consultarCuentasAhorro())
-      .then((res: any) => {
-        Object.keys(res).forEach(key => {
-          this.cuentas.push(res[key]);
-        });
+    // setTimeout(() => this.store.dispatch(uiActions.isLoading()), 0);
+    this._cuentaService.consultarCuentasAhorro().subscribe({
+      next: value => {
+        this.cuentas = value;
         this.clientes = [...new Set(this.cuentas.map(c => c.idCliente))];
-      })
-      .catch(err => {
-        console.warn(err);
-      }).finally(() => this.store.dispatch(uiActions.stopLoading()))
+      },
+      complete: () => this.store.dispatch(uiActions.stopLoading()),
+      error: (error) => {
+        this.store.dispatch(uiActions.stopLoading())
+        Swal.fire('Error', error.message, 'error')
+      }
+    })
   }
-
 
   seleccionarCuenta(cuenta: CuentaAhorro) {
     this.store.dispatch(uiActions.isLoading());
     this.historialCuenta = [];
-    firstValueFrom(this._cuentaService.historialTransacciones())
-      .then((res: any) => {
-        Object.keys(res).forEach(key => {
-          if (res[key]['numeroCuenta'] === cuenta.numeroCuenta)
-            this.historialCuenta.push(res[key]);
-        });
-      }).catch(err => {
-        console.warn(err);
-      }).finally(() => this.store.dispatch(uiActions.stopLoading()))
+
+    this._cuentaService.historialTransacciones(cuenta).subscribe({
+      next: (value: any) => this.historialCuenta = value,
+      complete: () => this.store.dispatch(uiActions.stopLoading()),
+      error: (error) => {
+        this.store.dispatch(uiActions.stopLoading())
+        Swal.fire('Error', error.message, 'error')
+      }
+    });
   }
 
   seleccionarCliente(cliente: number) {

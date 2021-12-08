@@ -2,6 +2,7 @@ import { Transaccion } from './../dashboard/cuenta.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CuentaAhorro } from '../dashboard/cuenta.interface';
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,25 @@ export class CuentaService {
   }
 
   consultarCuentasAhorro() {
-    return this._http.get(this.cuentasUrl.consultaCuentasAhorro);
+    return this._http.get(this.cuentasUrl.consultaCuentasAhorro).pipe(
+      map((elm: any) => {
+        let temp: any = [];
+        Object.keys(elm).forEach(key => temp.push(elm[key]))
+        return temp;
+      }));
   }
 
-  historialTransacciones() {
-    return this._http.get(this.cuentasUrl.consultaHistorialTransacciones);
+  historialTransacciones(cuenta: CuentaAhorro) {
+    return this._http.get(this.cuentasUrl.consultaHistorialTransacciones).pipe(
+      map((elm: any) => {
+        let temp: any = [];
+        Object.keys(elm).forEach(key => {
+          if (elm[key]['numeroCuenta'] === cuenta.numeroCuenta)
+            temp.push(elm[key]);
+        });
+        return temp;
+      })
+    )
   }
 
   altaTransaccion(movimiento: Transaccion) {
