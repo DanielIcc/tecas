@@ -1,0 +1,24 @@
+@import '~src/variables';
+
+mat-form-field {
+  width: 100%;
+  
+}
+
+.card-container {
+  width: 280px;
+}
+
+.logo-login {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - $toolbar-height);
+}
+

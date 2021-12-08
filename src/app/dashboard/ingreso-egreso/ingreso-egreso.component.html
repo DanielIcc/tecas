@@ -1,0 +1,26 @@
+<div class="flex-container">
+    <div class="container">
+        <h1>Realizar una Transacción</h1>
+        <form [formGroup]="transaccionForm" (ngSubmit)="registrar()">
+            <mat-form-field appearance="outline">
+                <mat-label>Número de Cuenta</mat-label>
+                <input matInput placeholder="xx00xx000x00" formControlName="numeroCuenta">
+                <mat-error *ngIf="numeroCuenta">Campo requerido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Monto</mat-label>
+                <input type="number" matInput placeholder="0.00" formControlName="monto">
+                <mat-error *ngIf="monto">Campo requerido</mat-error>
+            </mat-form-field>
+
+            <mat-radio-group formControlName="tipo" aria-label="Tipo de transacción">
+                <mat-radio-button value="Retiro">Retiro</mat-radio-button>
+                <mat-radio-button value="Deposito">Depósito</mat-radio-button>
+            </mat-radio-group>
+            <button mat-raised-button style="margin-top: 15px;" class="full-button" type="submit" color="primary">
+                Realizar transacción</button>
+        </form>
+
+    </div>
+</div>

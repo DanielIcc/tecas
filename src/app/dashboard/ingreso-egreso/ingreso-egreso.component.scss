@@ -1,0 +1,27 @@
+@import "~src/variables";
+
+
+.container {
+  width: 350px;
+  margin-top: $toolbar-height;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  margin-top: 20px;
+}
+
+button {
+  margin-top: 20px !important;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 250px;
+  }
+}
+

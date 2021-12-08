@@ -1,0 +1,28 @@
+mat-form-field {
+  width: 100%;
+}
+
+.deposito{
+  color:green;
+}
+
+.retiro{
+  color: red;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 600px) {
+  .cuenta-container {
+    width: 250px;
+  }
+}

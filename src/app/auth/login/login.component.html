@@ -1,0 +1,33 @@
+<div class="flex-container">
+    <div class="logo-login">
+        <img src="./assets/images/TCR-logo.png" width="120px">
+    </div>
+    <mat-card class="card-container">
+        <form style="margin-top: 15px;" [formGroup]="loginForm" (ngSubmit)="ingresar()">
+            <p>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Ingresa tu correo electrónico</mat-label>
+                    <input matInput placeholder="desarrollo@prueba.com" formControlName="email">
+                    <mat-error *ngIf="email.errors?.['required']">Campo requerido</mat-error>
+                    <mat-error *ngIf="email.errors?.['email']">Email incorrecto</mat-error>
+                </mat-form-field>
+            </p>
+            <p>
+                <mat-form-field appearance="legacy">
+                    <mat-label>Ingresa tu contraseña</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                        [attr.aria-label]="'Ocultar contraseña'">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password">Campo requerido</mat-error>
+                </mat-form-field>
+            </p>
+            <button mat-raised-button class="full-button mt-10" type="submit" color="primary">Ingresar</button>
+        </form>
+        <!-- <div style="margin-top: 25px;">
+            <span>No eres cliente?  </span><small><a color="primary" routerLink='/registro' class="primary">Crear una cuenta</a></small>
+        </div> -->
+    </mat-card>
+
+</div>

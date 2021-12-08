@@ -1,0 +1,36 @@
+@import "~@angular/material/theming";
+
+.margin-Top-56 {
+  margin-top: 56px;
+}
+
+.menu-icon {
+  margin-right: 5px !important;
+}
+
+.mat-list-base {
+  padding: 0 !important;
+}
+
+.mat-expansion-panel-spacing {
+  margin: 0 !important;
+}
+
+
+.menu {
+  background-color: mat-color(mat-palette($mat-grey, 100)) !important;
+}
+
+.mat-accordion {
+  background-color: mat-color(mat-palette($mat-grey, 100)) !important;
+}
+
+.loader-overlay {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  z-index: 500000;
+}
+

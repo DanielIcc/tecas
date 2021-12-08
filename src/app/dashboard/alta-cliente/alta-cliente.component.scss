@@ -1,0 +1,25 @@
+@import "~src/variables";
+
+.registro-container {
+  margin-top: $toolbar-height;
+  width: 350px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.flex-container-registro {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  height: calc(100vh - $toolbar-height);
+}
+
+@media (max-width: 600px) {
+  .registro-container {
+    width: 250px;
+    
+  }
+}

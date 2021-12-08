@@ -1,0 +1,46 @@
+<div class="loader-overlay" [hidden]="!_utils.loading ">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div class="mat-typography">
+
+    <mat-toolbar style="background-color: white;" class="mat-elevation-z2">
+        <button (click)="snav.toggle()" aria-label="Toggle sidenav" mat-icon-button>
+            <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <img src="./assets/images/TCR-logo.png" width="120px">
+        <span class="spacer"></span>
+        <button (click)="cerrarSesion()" color="primary" style="margin-right: 5px;" mat-stroked-button>Cerrar
+            sesión</button>
+    </mat-toolbar>
+
+    <mat-sidenav-container color="primary" [hasBackdrop]="false">
+        <mat-sidenav class="mat-elevation-z2" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+            [fixedInViewport]="true" fixedTopGap="56" [opened]="!(isHandset$ | async)">
+            <mat-nav-list>
+                <mat-accordion multi="true">
+                    <div *ngFor="let menu of menuArray;let i = index">
+                        <mat-expansion-panel class="menu mat-elevation-z0" [expanded]="true" hideToggle="true">
+                            <mat-expansion-panel-header #panelH (click)="panelH._toggle()" matRipple
+                                [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+                                {{menu.descripcion}}
+                            </mat-expansion-panel-header>
+                            <mat-nav-list dense>
+                                <a [routerLink]="[submenu.ruta]" (click)="cerrarMenu()" routerLinkActive="activo"
+                                    mat-list-item *ngFor="let submenu of menu.subMenus;let j = index">
+                                    <mat-icon class="menu-icon" aria-label="Side nav toggle icon">{{submenu.icono}}
+                                    </mat-icon>
+                                    {{submenu.descripcion}}
+                                </a>
+                            </mat-nav-list>
+                        </mat-expansion-panel>
+                    </div>
+                </mat-accordion>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+</div>

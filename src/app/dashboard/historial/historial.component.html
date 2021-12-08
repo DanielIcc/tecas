@@ -1,0 +1,51 @@
+<div class="flex-container">
+    <div class="contenedor">
+        <h1>Historial de transacciones</h1>
+        <mat-form-field appearance="outline">
+            <mat-label>Selecciona el Cliente</mat-label>
+            <mat-select [ngModel]="clienteSeleccionado" (ngModelChange)="seleccionarCliente($event)">
+                <mat-option *ngFor="let cliente of clientes; let i = index" [value]="cliente">{{cliente}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Selecciona la Cuenta</mat-label>
+            <mat-select [ngModel]="cuentaSeleccionada" (ngModelChange)="seleccionarCuenta($event)">
+                <mat-option *ngFor="let cuenta of cuentasCliente; let i = index" [value]="cuenta">{{cuenta.numeroCuenta}}
+                </mat-option>
+            </mat-select>
+            <mat-hint>Cuentas: {{cuentasCliente.length}}</mat-hint>
+        </mat-form-field>
+    </div>
+    <ng-container *ngIf="(historialCuenta.length > 0 ) else notrans">
+        <h4 class="card-title">Detalle de ingreso egreso</h4>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Terminal</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of historialCuenta">
+                    <td>{{item.fechaUltimaAct | date}}</td>
+                    <td>{{item.monto | currency}}</td>
+                    <td>{{item.terminal }}</td>
+                    <td [class.deposito]="item.tipo.toLowerCase() =='deposito'"
+                        [class.retiro]="item.tipo.toLowerCase() ==='retiro'">
+                        {{item.tipo}}
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </ng-container>
+    <ng-template #notrans>
+        <span>No hay transacciones</span>
+    </ng-template>
+
+</div>

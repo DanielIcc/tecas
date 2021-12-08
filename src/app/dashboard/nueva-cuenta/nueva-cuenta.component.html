@@ -1,0 +1,26 @@
+<div class="flex-container-cuenta">
+    <div class="cuenta-container">
+        <h1>Apertura de cuentas de ahorro</h1>
+        <form [formGroup]="cuentaForm" (ngSubmit)="registrar()">
+            <mat-form-field appearance="outline">
+                <mat-label>Número de Cuenta</mat-label>
+                <input matInput placeholder="xx00xx000x00" formControlName="numeroCuenta">
+                <mat-error *ngIf="noCuenta">Campo requerido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Saldo</mat-label>
+                <input type="number" matInput placeholder="0.00" formControlName="saldo">
+                <mat-error *ngIf="saldo">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>ID Cliente</mat-label>
+                <input type="number" matInput placeholder="000000000000" formControlName="idCliente">
+                <mat-error *ngIf="idCliente">Campo requerido</mat-error>
+            </mat-form-field>
+            <button mat-raised-button style="margin-top: 15px;" class="full-button" type="submit" color="primary">Crear Cuenta de
+                Ahorro</button>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="flex-container-registro">
+    <div class="registro-container">
+        <h1>Alta de clientes</h1>
+        <p>Llena todos los campos.</p>
+        <form style="margin-top: 15px;" [formGroup]="registroForm" (ngSubmit)="registrar()">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre Completo</mat-label>
+                <input matInput placeholder="Daniel de Leon" formControlName="nombre">
+                <mat-error *ngIf="nombreF">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Género</mat-label>
+                <mat-select formControlName="genero">
+                    <mat-option value="hombre">Hombre</mat-option>
+                    <mat-option value="mujer">Mujer</mat-option>
+                </mat-select>
+                <mat-error *ngIf="generoF">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Edad</mat-label>
+                <input type="number" matInput placeholder="xxxxxxxx" formControlName="edad">
+                <mat-error *ngIf="edadF">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Dirección</mat-label>
+                <input matInput placeholder="avenida siempre viva 742" formControlName="direccion">
+                <mat-error *ngIf="direccionF">Campo requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Número de identificación</mat-label>
+                <input matInput placeholder="xxxxxxxx" formControlName="id">
+                <mat-error *ngIf="idF">Campo requerido</mat-error>
+            </mat-form-field>
+
+
+            <button mat-raised-button class="full-button mt-10" type="submit" color="primary">Crear Cuenta</button>
+        </form>
+
+    </div>
+
+</div>

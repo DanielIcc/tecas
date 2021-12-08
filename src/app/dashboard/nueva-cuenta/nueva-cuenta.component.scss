@@ -1,0 +1,25 @@
+@import "~src/variables";
+
+.flex-container-cuenta {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  height: calc(100vh - $toolbar-height);
+}
+
+.cuenta-container {
+  width: 350px;
+  margin-top: $toolbar-height;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .cuenta-container {
+    width: 250px;
+  }
+}
+
