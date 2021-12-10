@@ -30,7 +30,6 @@ import { StoreModule } from '@ngrx/store';
     AngularMaterialModule,
     BrowserAnimationsModule,
     AuthModule,
-    DashboardModule,
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
