@@ -1,3 +1,4 @@
+import { StoreModule } from '@ngrx/store';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -9,6 +10,9 @@ import { NuevaCuentaComponent } from './nueva-cuenta/nueva-cuenta.component';
 import { HistorialComponent } from './historial/historial.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { AltaClienteComponent } from './alta-cliente/alta-cliente.component';
+import { clientesReducer } from './store/reducers/clientes.reducer';
+import { cuentasReducer } from './store/reducers/cuentas.reducer';
+import { dashboardReducers } from './store/dashboard.reducers';
 
 
 const rutasHijas: Routes = [
@@ -39,6 +43,7 @@ const rutasHijas: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(rutasHijas),
+    StoreModule.forFeature('dashboard', dashboardReducers),
     AngularMaterialModule,
   ],
   exports: [

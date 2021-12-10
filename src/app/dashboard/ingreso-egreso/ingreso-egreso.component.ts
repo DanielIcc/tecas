@@ -5,11 +5,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { Store } from '@ngrx/store';
-import { firstValueFrom } from 'rxjs';
 
 import { CuentaService } from 'src/app/services/cuenta.service';
-import { AppState } from 'src/app/store/app.reducers';
 import * as uiActions from 'src/app/store/actions/ui.actions';
+import { AppStateWithDashboard } from '../store/dashboard.reducers';
 
 @Component({
   selector: 'app-ingreso-egreso',
@@ -25,7 +24,7 @@ export class IngresoEgresoComponent implements OnInit {
   get tipo() { return this.transaccionForm.controls['tipo'] };
 
   constructor(private _cuentaService: CuentaService, private fb: FormBuilder,
-    private store: Store<AppState>) {
+    private store: Store<AppStateWithDashboard>) {
 
     this.transaccionForm = this.fb.group({
       monto: ['', Validators.required],
